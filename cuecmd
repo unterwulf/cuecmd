@@ -1,0 +1,40 @@
+#!/bin/sh
+#
+# Import metadata from cue sheet into per file tags
+#
+# Copyright (c) 2012 Vitaly Sinilin
+#
+
+TRACK=
+cuefile=$1
+: ${CUECMD_LIB_PATH:=/home/vs/bin/local/lib/cuecmd}
+PATH=$CUECMD_LIB_PATH:$PATH
+CR=`printf "\r"`
+
+case $# in
+  0) echo "usage: $0 <cuefile> [<track1>...]" >&2; exit 1;;
+  1) ;;
+  *) TRACKTOTAL=`$0 "$1"`
+esac
+
+( cat "$cuefile"; echo "__END" ) | while read cmd args; do
+  case $cmd in
+    REM)
+      cmd=${args%% *}
+      args=${args#* };;
+    TITLE|PERFORMER)
+      [ -z "$TRACK" ] && cmd="DISC_$cmd";;
+    TRACK|__END)
+      FILENAME=$1; [ $# -gt 0 ] && shift
+      if [ -n "$TRACK" ]; then
+        : ${PERFORMER:=$DISC_PERFORMER}
+        ext=${FILENAME##*.}
+        [ -n "$ext" ] && . cuecmd_$ext
+      fi;;
+    *) continue
+  esac
+  [ "$cmd" = "__END" ] && [ -z "$FILENAME" ] && echo $TRACK
+  noquote=${args#\"}
+  [ "$args" != "$noquote" ] && value=${noquote%%\"*} || value=${args%% *}
+  eval $cmd=\${value%$CR}
+done

@@ -1,0 +1,16 @@
+#!/bin/echo It is an mp3info driver for cuecmd script. Do not run it directly.
+#
+# Copyright (c) 2012 Vitaly Sinilin
+#
+
+mp3info \
+  -t "$TITLE" \
+  -l "$DISC_TITLE" \
+  -a "$PERFORMER" \
+  -y "$DATE" \
+  -c "$COMMENT" \
+  -n "$TRACK" \
+  "$FILENAME"
+
+# Set genre separately as it may fail.
+mp3info -g "$GENRE" "$FILENAME"

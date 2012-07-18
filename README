@@ -1,0 +1,40 @@
+cuecmd, Copyright (c) 2012 by Vitaly Sinilin. All rights reserved.
+Published under the terms of the MIT License.
+
+cuecmd is a drop-in replacement for Svend Sorensen's cuetag script.
+It is written in POSIX shell in order not to have dependency on the
+cueprint program. It can be just placed somewhere in user's shared
+home directory and will work on any host regardless of cuetools
+availability.
+
+
+INSTALLATION
+
+To install the script system-wide type
+
+   sudo make install
+
+To install into your home type
+
+   make PREFIX=~ install
+
+
+NOTES FOR RUSSIAN USERS
+
+Usually cue sheets use cp1251 encoding for cyrillic. If you are
+not using ru_RU.cp1251 locale you will likely have troubles with
+FLAC tags encoding. There are a number of ways to get it working.
+
+If your system still has locale ru_RU.cp1251 (no matter whether
+you use it or not) you can just run cuecmd as follows
+
+   LANG=ru_RU.cp1251 cuecmd cuefile.cue *.flac
+
+It works with metaflac driver because metaflac respects current
+locale settings and converts encoding to UTF-8 by its own means.
+
+If your system lacks support of ru_RU.cp1251 locale you have to
+convert cue sheet encoding before use it with cuecmd. You can do
+this with the iconv utility as follows
+
+   iconv -f cp1251 cuefile.cue > cuefile_locale.cue

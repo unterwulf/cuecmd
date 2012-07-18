@@ -1,0 +1,14 @@
+#!/bin/echo It is a metaflac driver for cuecmd script. Do not run it directly.
+#
+# Copyright (c) 2012 Vitaly Sinilin
+#
+
+metaflac --remove-all-tags --import-tags-from=- "$FILENAME" <<METAFLAC
+TITLE=$TITLE
+ARTIST=$PERFORMER
+ALBUM=$DISC_TITLE
+DATE=$DATE
+TRACKNUMBER=$TRACK
+TRACKTOTAL=$TRACKTOTAL
+GENRE=$GENRE
+METAFLAC
