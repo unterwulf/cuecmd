@@ -7,7 +7,7 @@
 
 TRACK=
 cuefile=$1
-: ${CUECMD_LIB_PATH:=/home/vs/bin/local/lib/cuecmd}
+: ${CUECMD_LIB_PATH:=/usr/local/lib/cuecmd}
 PATH=$CUECMD_LIB_PATH:$PATH
 CR=`printf "\r"`
 
